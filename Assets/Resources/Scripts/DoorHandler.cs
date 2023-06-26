@@ -28,14 +28,15 @@ public class DoorHandler : MonoBehaviour
         //Handle the doors that should not be ever opened by the player
         if (transform.parent.CompareTag(OPENABLE_TAG))
         {
-            forever_locked = true;
+            forever_locked = false;
         }
         //Other openable doors
         else
         {
-            forever_locked = false;
+            forever_locked = true;
         }
 
+        
         //Handling the intitial state defined in inspector
         if(opened)
         {
@@ -68,10 +69,14 @@ public class DoorHandler : MonoBehaviour
     {
         Debug.Log("Open/Close called");
 
+        Debug.Log("Is locked: " + locked);
+        Debug.Log("Is forever locked: " + forever_locked);
+
         //Don't try if the door is locked
         if (forever_locked || locked)
             return false;
 
+        Debug.Log("is not locked");
         //Close if the door is opened
         if (opened)
         {
