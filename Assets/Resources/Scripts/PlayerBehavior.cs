@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerMovement : MonoBehaviour
+public delegate bool UseHandler();
+
+public class PlayerBehavior : MonoBehaviour
 {
     //A tag for player's camera retrieval
     private const string CAMERA_TAG = "PlayerCamera";
+    private const string DOOR_TAG = "Door";
+
     //A camera for player, acting as player's "eyes"
     private GameObject eyes;
     ////A ray coming from player's "eyes"
     //private Physics vision;
     private Rigidbody rb;
+
+
     private int speed;
     //Player's movement input on x-axis
     float x_move;
@@ -35,37 +41,34 @@ public class PlayerMovement : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E))
         {
-            Interact();
+            PreInteract();
         }
     }
 
     /// <summary>
     /// Performs an acting on the object received after raycasting
     /// </summary>
-    private void Interact()
+    private void PreInteract()
     {
         Vector3 origin = eyes.transform.position;
         Vector3 direction = eyes.transform.forward;
+        RaycastHit rayInfo;
 
-        //Debug.Log("Rotation: " + direction);
-        Debug.DrawRay(origin, direction, Color.red);
 
-        bool hit = Physics.Raycast(origin, direction, out RaycastHit ray_info);
-        DoorHandler doorHandler = ray_info.collider.gameObject.GetComponent<DoorHandler>();
+        bool hit = Physics.Raycast(origin, direction, out rayInfo);
 
-        //Tries to open/close the door if possible
-        if (hit && doorHandler)
-        {
-            doorHandler.OpenClose();
-        }
+        Collider hit_collider = rayInfo.collider;
+
+        if (hit_collider != null)
+            hit_collider.GetComponent<IInteractable>()?.Interact();
     }
 
-    //private IEnumerator<WaitForSeconds> DeleteTimer(Component toDelete, float time)
-    //{
-    //    yield return new WaitForSeconds(time);
+    private IEnumerator<WaitForSeconds> DeleteTimer(GameObject toDelete, float time)
+    {
+        yield return new WaitForSeconds(time);
 
-    //    Destroy(toDelete);
-    //}
+        Destroy(toDelete);
+    }
 
     // FixedUpdate is called once per fixed frame
     private void FixedUpdate()

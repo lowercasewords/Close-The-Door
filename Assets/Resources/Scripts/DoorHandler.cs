@@ -2,53 +2,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorHandler : MonoBehaviour
+public class DoorHandler : MonoBehaviour, IInteractable
 {
-    //private const string OPENABLE_TAG = "OpenableDoor";
-
     private const string PLAYER_TAG = "Player";
-    private const string OPEN_STATE = "OpenDoor";
-    private const string CLOSE_STATE = "CloseDoor";
-    private const string OPEN_TRIGGER = "tr_open_door";
-    private const string CLOSE_TRIGGER = "tr_close_door";
-    private const string LOCKED_TRIGGER = "tr_locked_door";
-    private const string UNLOCKED_TRIGGER = "tr_unlocked_door";
+    /// <summary>
+    /// A boolean parameter for an Animator component to signify open/close door
+    /// </summary>
+    private const string P_DOOR_OPENED = "bl_door_opened";
+    /// <summary>
+    /// A boolean parameter for an Animator component to signify unlocked/locked door
+    /// </summary>
+    private const string P_DOOR_UNLOCKED = "bl_door_unlocked";
+
 
     [SerializeField]
-    private bool locked;
+    private bool unlocked;
     [SerializeField]
     private bool opened;
     [SerializeField]
     private bool forever_locked;
+    
 
-    private Animator parent_animator;
+    private Animator parentAnimator;
+    private MeshCollider childClapHolderCollider;
+    private PlayerBehavior player;
+
+    public UseHandler useDoor;
 
     private void Awake()
     {
-        //Due to the scale of the project, it is assumed animator is supplied
-        parent_animator = GetComponentInParent<Animator>();
+        //Due to the small scale of the project, it is assumed animator is supplied
+        parentAnimator = GetComponentInParent<Animator>();
+        parentAnimator.SetBool(P_DOOR_OPENED, opened);
 
-        ////Handle the doors that should not be ever opened by the player
-        //if (transform.parent.CompareTag(OPENABLE_TAG))
-        //{
-        //    forever_locked = false;
-        //}
-        ////Other openable doors
-        //else
-        //{
-        //    forever_locked = true;
-        //}
+        childClapHolderCollider = GetComponentInChildren<MeshCollider>(false);
+        //player = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerBehavior>();
+        //PlayerBehavior.interaction += OpenClose;
 
-        
-        //Handling the intitial state defined in inspector
-        if(opened)
+        useDoor = OpenClose;
+    }
+
+    public bool Interact()
+    {
+        return OpenClose();
+    }
+
+    public bool UnlockLock()
+    {
+        if (!opened)
         {
-            parent_animator.SetTrigger(OPEN_TRIGGER);
+            unlocked = !unlocked;
+            parentAnimator.SetBool(P_DOOR_UNLOCKED, unlocked);
         }
-        else
-        {
-            parent_animator.SetTrigger(CLOSE_TRIGGER);
-        }
+        return true;
     }
 
     /// <summary>
@@ -57,41 +63,21 @@ public class DoorHandler : MonoBehaviour
     /// <returns>
     /// True if door was opened or closed successfully.
     /// </returns>
-    public bool OpenClose()
+    private bool OpenClose()
     {
         Debug.Log("Open/Close called");
 
-        //Debug.Log("Is locked: " + locked);
-        //Debug.Log("Is forever locked: " + forever_locked);
-
         //Don't try if the door is locked
-        if (forever_locked || locked)
+        if (forever_locked || !unlocked)
             return false;
 
-        parent_animator.ResetTrigger(CLOSE_TRIGGER);
-        parent_animator.ResetTrigger(OPEN_TRIGGER);
-
-        //Debug.Log("is not locked");
-        //Close if the door is opened
-        if (parent_animator)
+        //Only allow to change open/close door boolean state when it's not locked
+        //because it wouldn't make sense to open the door while it's locked
+        if (parentAnimator.GetBool(P_DOOR_UNLOCKED))
         {
-            if (parent_animator.GetCurrentAnimatorStateInfo(0).IsName(OPEN_STATE))
-            {
-                Debug.Log("Closing...");
-                parent_animator.SetTrigger(CLOSE_TRIGGER);
-                
-                opened = false;
-            }
-            //Open if the door is closed
-            else if(parent_animator.GetCurrentAnimatorStateInfo(0).IsName(CLOSE_STATE))
-            {
-                Debug.Log("Openning...");
-                parent_animator.SetTrigger(OPEN_TRIGGER);
-
-                opened = true;
-            }
+            opened = !opened;
+            parentAnimator.SetBool(P_DOOR_OPENED, opened);
         }
-
         return true;
     }
 
