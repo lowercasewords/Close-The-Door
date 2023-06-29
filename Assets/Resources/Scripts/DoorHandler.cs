@@ -34,6 +34,7 @@ public class DoorHandler : MonoBehaviour, IInteractable
         //Due to the small scale of the project, it is assumed animator is supplied
         parentAnimator = GetComponentInParent<Animator>();
         parentAnimator.SetBool(P_DOOR_OPENED, opened);
+        parentAnimator.SetBool(P_DOOR_UNLOCKED, unlocked);
 
         childClapHolderCollider = GetComponentInChildren<MeshCollider>(false);
         //player = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerBehavior>();
@@ -44,7 +45,9 @@ public class DoorHandler : MonoBehaviour, IInteractable
 
     public bool Interact()
     {
-        return OpenClose();
+        bool result = OpenClose();
+        Debug.Log("Interacted? " + result);
+        return result;
     }
 
     public bool UnlockLock()
