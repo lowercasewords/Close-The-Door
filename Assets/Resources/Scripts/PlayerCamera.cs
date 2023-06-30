@@ -2,29 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCamera : MonoBehaviour
+public class PlayerCamera : MonoBehaviour, IMovable
 {
     //The player object this camera is attached to
     private GameObject player;
-    private int rotation_sensitivity = 10;
+    private const int rotation_sensitivity = 10;
     private const float ROTATION_LIMIT = 60f;
+    private const float yStandPos = 0.89f;
 
-    //Rotation values for the camera
-    private float xRotation = 0f;
-    private float yRotation = 0f;
+    /// <summary>
+    /// Rotation value for the camera
+    /// </summary>
+    private float xRotation, yRotation;
+
+    /// <summary>
+    /// Can the camera be rotated or moved?
+    /// </summary>
+    public bool CanMove { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
+        xRotation = 0f;
+        yRotation = 0f;
+    }
+
+    private void Awake()
+    {
+        CanMove = true;
         Cursor.lockState = CursorLockMode.Locked;
         player = transform.parent.gameObject;
+        ResetPosition();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Rotation(ROTATION_LIMIT);
+        if(CanMove)
+            Rotation(ROTATION_LIMIT);
     }
+
+    /// <summary>
+    /// Resets the position of the camera local to its player
+    /// </summary>
+    public void ResetPosition() => transform.localPosition.Set(0f, yStandPos, 0f);
+
 
     /// <summary>
     /// Local camera rotation along x-axis (up-down)

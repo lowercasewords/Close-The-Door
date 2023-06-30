@@ -5,35 +5,52 @@ using UnityEngine;
 
 public delegate bool UseHandler();
 
-public class PlayerBehavior : MonoBehaviour
+public class PlayerBehavior : MonoBehaviour, IMovable
 {
     //A tag for player's camera retrieval
     private const string CAMERA_TAG = "PlayerCamera";
     private const string DOOR_TAG = "Door";
 
-    //A camera for player, acting as player's "eyes"
+    /// <summary>
+    /// A camera component for player, acting as player's "eyes"
+    /// </summary>
     private GameObject eyes;
-    ////A ray coming from player's "eyes"
-    //private Physics vision;
+    /// <summary>
+    /// Rigidbody component attached to the player
+    /// </summary>
     private Rigidbody rb;
 
 
+    /// <summary>
+    /// Movement speed of the player in all directions
+    /// </summary>
     private int speed;
-    //Player's movement input on x-axis
-    float x_move;
-    //Player's movement input on z-axis
-    float z_move;
+    /// <summary>
+    /// Player's movement input on x-axis
+    /// </summary>
+    private float x_move;
+    /// <summary>
+    /// Player's movement input on z-axis
+    /// </summary>
+    private float z_move;
+
+    /// <summary>
+    /// Can the player move?
+    /// </summary>s
+    public bool CanMove { get; set; }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        speed = 5;
+        CanMove = true;
+
         eyes = gameObject.transform.GetChild(0).gameObject;
         if(!eyes.CompareTag(CAMERA_TAG))
         {
             eyes = null;
         }
-        rb = GetComponent<Rigidbody>();
-        speed = 5;
     }
 
     // Update is called once per frame
@@ -45,33 +62,14 @@ public class PlayerBehavior : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Performs an acting on the object received after raycasting
-    /// </summary>
-    private void PreInteract()
-    {
-        Vector3 origin = eyes.transform.position;
-        Vector3 direction = eyes.transform.forward;
-        RaycastHit rayInfo;
-
-
-        bool hit = Physics.Raycast(origin, direction, out rayInfo);
-
-        Collider hit_collider = rayInfo.collider;
-
-        if (hit_collider != null)
-            hit_collider.GetComponent<IInteractable>()?.Interact();
-    }
-
-    private IEnumerator<WaitForSeconds> DeleteTimer(GameObject toDelete, float time)
-    {
-        yield return new WaitForSeconds(time);
-
-        Destroy(toDelete);
-    }
-
     // FixedUpdate is called once per fixed frame
     private void FixedUpdate()
+    {
+        if(CanMove)
+            Move();
+    }
+
+    private void Move()
     {
         x_move = Input.GetAxis("Horizontal");
         z_move = Input.GetAxis("Vertical");
@@ -87,4 +85,35 @@ public class PlayerBehavior : MonoBehaviour
 
         rb.velocity = (forward + right).normalized;
     }
+
+    /// <summary>
+    /// Performs an acting on the object received after raycasting
+    /// </summary>
+    private void PreInteract()
+    {
+        Vector3 origin = eyes.transform.position;
+        Vector3 direction = eyes.transform.forward;
+
+        RaycastHit[] hitInfos = Physics.RaycastAll(origin, direction, 2f);
+        bool? result = null;
+        foreach (var hit in hitInfos)
+        {
+            //Only interact with one thing
+            result = hit.collider?.GetComponent<IInteractable>()?.Interact(gameObject);
+            /*
+            if (result != null && result == true)
+            {
+                break;
+            }
+            */
+        }
+    }
+
+    private IEnumerator<WaitForSeconds> DeleteTimer(GameObject toDelete, float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        Destroy(toDelete);
+    }
+
 }

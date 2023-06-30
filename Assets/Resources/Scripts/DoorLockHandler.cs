@@ -11,7 +11,7 @@ public class DoorLockHandler : MonoBehaviour, IInteractable
         parentDoor = gameObject.GetComponentInParent<DoorHandler>();
     }
 
-    public bool Interact()
+    public bool Interact(GameObject sender)
     {
         return parentDoor.UnlockLock();
     }

@@ -24,7 +24,6 @@ public class DoorHandler : MonoBehaviour, IInteractable
     
 
     private Animator parentAnimator;
-    private MeshCollider childClapHolderCollider;
     private PlayerBehavior player;
 
     public UseHandler useDoor;
@@ -35,15 +34,10 @@ public class DoorHandler : MonoBehaviour, IInteractable
         parentAnimator = GetComponentInParent<Animator>();
         parentAnimator.SetBool(P_DOOR_OPENED, opened);
         parentAnimator.SetBool(P_DOOR_UNLOCKED, unlocked);
-
-        childClapHolderCollider = GetComponentInChildren<MeshCollider>(false);
-        //player = GameObject.FindGameObjectWithTag(PLAYER_TAG).GetComponent<PlayerBehavior>();
-        //PlayerBehavior.interaction += OpenClose;
-
         useDoor = OpenClose;
     }
 
-    public bool Interact()
+    public bool Interact(GameObject sender)
     {
         bool result = OpenClose();
         Debug.Log("Interacted? " + result);
