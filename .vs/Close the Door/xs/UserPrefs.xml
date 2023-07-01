@@ -1,0 +1,35 @@
+﻿<Properties StartupConfiguration="{B3F1923D-D087-F437-5BBF-5A3DB6625BEF}|">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="886fbc62-413e-4f6a-85ef-5e93ec6fd541" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/PlayerBehavior.cs">
+    <Files>
+      <File FileName="Assets/Resources/Scripts/PeekHandler.cs" Line="5" Column="39" />
+      <File FileName="Assets/Resources/Scripts/PlayerCamera.cs" />
+      <File FileName="Assets/Resources/Scripts/PlayerBehavior.cs" Line="7" Column="51" />
+      <File FileName="Assets/Resources/Scripts/IInteractable.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/DoorHandler.cs" />
+      <File FileName="Assets/Resources/Scripts/DoorLockHandler.cs" Line="1" Column="1" />
+      <File FileName="Assets/Resources/Scripts/IMovable.cs" Line="2" Column="19" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Close the Door">
+            <Node name="Assets" expanded="True">
+              <Node name="Resources" expanded="True">
+                <Node name="Scripts" expanded="True">
+                  <Node name="PlayerBehavior.cs" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+</Properties>

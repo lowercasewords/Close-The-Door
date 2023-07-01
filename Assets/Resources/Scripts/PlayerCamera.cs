@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerCamera : MonoBehaviour, IMovable
 {
     //The player object this camera is attached to

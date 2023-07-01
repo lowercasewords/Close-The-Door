@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public delegate bool UseHandler();
 
 public class PlayerBehavior : MonoBehaviour, IMovable
@@ -47,7 +46,7 @@ public class PlayerBehavior : MonoBehaviour, IMovable
         CanMove = true;
 
         eyes = gameObject.transform.GetChild(0).gameObject;
-        if(!eyes.CompareTag(CAMERA_TAG))
+        if (!eyes.CompareTag(CAMERA_TAG))
         {
             eyes = null;
         }
@@ -56,7 +55,7 @@ public class PlayerBehavior : MonoBehaviour, IMovable
     // Update is called once per frame
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             PreInteract();
         }
@@ -65,7 +64,7 @@ public class PlayerBehavior : MonoBehaviour, IMovable
     // FixedUpdate is called once per fixed frame
     private void FixedUpdate()
     {
-        if(CanMove)
+        if (CanMove)
             Move();
     }
 
