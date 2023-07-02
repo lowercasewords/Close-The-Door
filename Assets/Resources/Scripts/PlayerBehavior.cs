@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public delegate bool UseHandler();
-
+/// <summary>
+/// Describes the basic behavior of the player, including its movement and interaction with
+/// interactable objects
+/// </summary>
 public class PlayerBehavior : MonoBehaviour, IMovable
 {
     //A tag for player's camera retrieval
-    private const string CAMERA_TAG = "PlayerCamera";
+    private const string CAMERA_TAG = "MainCamera";
     private const string DOOR_TAG = "Door";
+    public const KeyCode INTERACT_KEY = KeyCode.E;
 
+    private delegate void Interaction();
     /// <summary>
     /// A camera component for player, acting as player's "eyes"
     /// </summary>
@@ -19,8 +22,12 @@ public class PlayerBehavior : MonoBehaviour, IMovable
     /// Rigidbody component attached to the player
     /// </summary>
     private Rigidbody rb;
+    /// <summary>
+    /// The instance that player is currently interacting with
+    /// </summary>
+    private Collider interactableCollider;
 
-
+    private float debugCount = 0;
     /// <summary>
     /// Movement speed of the player in all directions
     /// </summary>
@@ -39,6 +46,7 @@ public class PlayerBehavior : MonoBehaviour, IMovable
     /// </summary>s
     public bool CanMove { get; set; }
 
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -52,13 +60,17 @@ public class PlayerBehavior : MonoBehaviour, IMovable
             eyes = null;
         }
     }
-
     // Update is called once per frame
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        //Tries to interact with an instant interactable object
+        if (Input.GetKeyDown(INTERACT_KEY))
         {
-            PreInteract();
+            Debug.Log("Pressed down!");
+
+            //Tries to find the interactable object
+            FindInteractable(out RaycastHit raycastInfo);
+            raycastInfo.collider?.GetComponent<IInteractable>()?.Interact(gameObject);
         }
     }
 
@@ -74,39 +86,40 @@ public class PlayerBehavior : MonoBehaviour, IMovable
         x_move = Input.GetAxis("Horizontal");
         z_move = Input.GetAxis("Vertical");
 
-        /*
-        Vector3 up = new Vector3(0f, rb.velocity.y, 0f);
-
-        rb.velocity = (transform.forward * z_move + transform.right * x_move).normalized * movement_speed + up;
-        */
-
         Vector3 forward = transform.forward * z_move;
         Vector3 right = transform.right * x_move;
 
         rb.velocity = (forward + right).normalized;
     }
 
+    
     /// <summary>
     /// Performs an acting on the object received after raycasting
     /// </summary>
-    private void PreInteract()
+    private void FindInteractable(out RaycastHit hit)
     {
         Vector3 origin = eyes.transform.position;
         Vector3 direction = eyes.transform.forward;
 
+        //Casts the ray to find the interactable
+        Physics.Raycast(origin, direction, out hit, 1f);
+
+
+        /*
         RaycastHit[] hitInfos = Physics.RaycastAll(origin, direction, 2f);
-        bool? result = null;
-        foreach (var hit in hitInfos)
+        bool result = false;
+        
+        foreach (RaycastHit hit in hitInfos)
         {
             //Only interact with one thing
-            result = hit.collider?.GetComponent<IInteractable>()?.Interact(gameObject);
-            /*
-            if (result != null && result == true)
-            {
+            result = (null == hit.collider?.GetComponent<IInteractable>()?.Interact(gameObject));
+            if (!result)
                 break;
-            }
-            */
         }
+        hits = hitInfos;
+        return result;
+
+        */
     }
 
     private IEnumerator<WaitForSeconds> DeleteTimer(GameObject toDelete, float time)
