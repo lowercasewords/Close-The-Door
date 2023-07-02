@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Interface for the object that could be interacted with by pressing the Interaction Key once
+/// </summary>
 public interface IInteractable
 {
     /// <summary>
