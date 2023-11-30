@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 2554329562618773546, guid: aba8670fbb66a4ba19ffc24a48ae5b73, type: 3}
+  m_Motion: {fileID: 979720116615774373, guid: 25268153cf4c64dd795bd5e741eb099d, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -127,7 +127,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -8036682760779531462, guid: aba8670fbb66a4ba19ffc24a48ae5b73, type: 3}
+  m_Motion: {fileID: 2749178469300657946, guid: 25268153cf4c64dd795bd5e741eb099d, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -231,13 +231,13 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: bl_door_unlocked
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
-    m_Controller: {fileID: 0}
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -322,7 +322,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -8036682760779531462, guid: aba8670fbb66a4ba19ffc24a48ae5b73, type: 3}
+  m_Motion: {fileID: 2749178469300657946, guid: 25268153cf4c64dd795bd5e741eb099d, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -375,7 +375,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 2554329562618773546, guid: aba8670fbb66a4ba19ffc24a48ae5b73, type: 3}
+  m_Motion: {fileID: 979720116615774373, guid: 25268153cf4c64dd795bd5e741eb099d, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

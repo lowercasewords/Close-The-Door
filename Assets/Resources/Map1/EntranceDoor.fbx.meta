@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d770a92ef00b9423f9957585353f8835
+guid: 25268153cf4c64dd795bd5e741eb099d
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -35,7 +35,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Door|Open
       takeName: Door|Open
-      internalID: 979720116615774373
+      internalID: 2749178469300657946
       firstFrame: 0
       lastFrame: 60
       wrapMode: 0
@@ -64,7 +64,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Clap|Lock
       takeName: Clap|Lock
-      internalID: 2554329562618773546
+      internalID: 979720116615774373
       firstFrame: 0
       lastFrame: 10
       wrapMode: 0
