@@ -13,6 +13,7 @@ public static class Creator
         
         //foreach(GameObject door in openableDoors)
         //{
+
         //    //We don't check if component already exist
         //    //because we don't assign it in the first place
         //    door.AddComponent<DoorUse>();
