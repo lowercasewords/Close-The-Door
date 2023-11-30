@@ -14,7 +14,6 @@ public class DoorHandler : MonoBehaviour, IInteractable
     /// </summary>
     private const string P_DOOR_UNLOCKED = "bl_door_unlocked";
 
-
     [SerializeField]
     private bool unlocked;
     [SerializeField]
@@ -22,7 +21,6 @@ public class DoorHandler : MonoBehaviour, IInteractable
     [SerializeField]
     private bool forever_locked;
     
-
     private Animator parentAnimator;
     private PlayerBehavior player;
 
