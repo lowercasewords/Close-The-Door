@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class PeekHandler : MonoBehaviour, IInteractable
 {
-    private const string PLAYER_CAMERA_TAG = "MainCamera";
+    private const string PLAYER_CAMERA_TAG = "PlayerCamera";
 
     //private Camera peekCamera;
     private bool isPeaking;
