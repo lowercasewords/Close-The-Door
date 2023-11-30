@@ -6,10 +6,12 @@
 public interface IInteractable
 {
     /// <summary>
-    /// Called upon when interaction with the player has happened
+    /// Called upon when something started to interact with the
+    /// object implementing this interface
     /// </summary>
     /// <param name="sender">
-    /// The player that made the action
+    /// The gameoObject that caused the interaction with object implementing
+    /// this interface
     /// </param>
     /// <returns>
     /// True if interaction was handled
