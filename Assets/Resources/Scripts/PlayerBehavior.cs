@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerBehavior : MonoBehaviour, IMovable
 {
     //A tag for player's camera retrieval
-    private const string CAMERA_TAG = "MainCamera";
+    private const string CAMERA_TAG = "PlayerCamera";
     private const string DOOR_TAG = "Door";
     public const KeyCode INTERACT_KEY = KeyCode.E;
 
@@ -69,8 +69,15 @@ public class PlayerBehavior : MonoBehaviour, IMovable
             Debug.Log("Pressed down!");
 
             //Tries to find the interactable object
-            FindInteractable(out RaycastHit raycastInfo);
-            raycastInfo.collider?.GetComponent<IInteractable>()?.Interact(gameObject);
+            if(FindInteractable(out RaycastHit raycastInfo))
+                raycastInfo.collider?.GetComponent<IInteractable>()?.Interact(gameObject);
+        }
+        //Tries to continuously interact with an object
+        else if(Input.GetKey(INTERACT_KEY))
+        {
+            Debug.Log("Pressing...");
+
+
         }
     }
 
@@ -96,14 +103,14 @@ public class PlayerBehavior : MonoBehaviour, IMovable
     /// <summary>
     /// Performs an acting on the object received after raycasting
     /// </summary>
-    private void FindInteractable(out RaycastHit hit)
+    private bool FindInteractable(out RaycastHit hit)
     {
         Vector3 origin = eyes.transform.position;
         Vector3 direction = eyes.transform.forward;
 
         //Casts the ray to find the interactable
-        Physics.Raycast(origin, direction, out hit, 1f);
-
+        return Physics.Raycast(origin, direction, out hit, 1f);
+        
 
         /*
         RaycastHit[] hitInfos = Physics.RaycastAll(origin, direction, 2f);

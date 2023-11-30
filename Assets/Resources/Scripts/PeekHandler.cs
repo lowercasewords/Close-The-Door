@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PeekHandler : MonoBehaviour, IInteractable
 {
-    private const string PLAYER_CAMERA_TAG = "PlayerCamera";
+    private const string PLAYER_CAMERA_TAG = "MainCamera";
 
     //private Camera peekCamera;
     private bool isPeaking;
@@ -19,13 +19,15 @@ public class PeekHandler : MonoBehaviour, IInteractable
 
     public bool Interact(GameObject sender)
     {
-        return Peek(sender);
+        Debug.Log("Interacted"); 
+        return PeekBehavior(sender);
     }
+
 
     /// <summary>
     /// Allows the player to peek through the door
     /// </summary>
-    public bool Peek(GameObject player)
+    public bool Peek(GameObject player
     {
         Camera player_camera = player.GetComponentInChildren<Camera>();
 
@@ -33,7 +35,7 @@ public class PeekHandler : MonoBehaviour, IInteractable
         if (!player_camera.CompareTag(PLAYER_CAMERA_TAG))
             return false;
 
-        //Player was already peaking
+        //Player was already peaking, so stop!
         if (isPeaking)
         {
             Debug.Log("Peeking is stopped");
@@ -41,6 +43,7 @@ public class PeekHandler : MonoBehaviour, IInteractable
             //peekCamera.enabled = false;
             player_camera.transform.position = Vector3.zero;// player.transform.position;
             //player_camera.transform.rotation = Quaternion;// player.transform.rotation;
+            
 
             player_camera.GetComponent<IMovable>().CanMove = true;
             player.GetComponent<IMovable>().CanMove = true;
@@ -52,7 +55,7 @@ public class PeekHandler : MonoBehaviour, IInteractable
             //peekCamera.enabled = true;
             player_camera.transform.position = gameObject.transform.position;
             //player_camera.transform.rotation = gameObject.transform.rotation;
-
+            
             player.GetComponent<IMovable>().CanMove = false;
             player_camera.GetComponent<IMovable>().CanMove = false;
         }
